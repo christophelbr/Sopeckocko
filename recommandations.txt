@@ -1,0 +1,15 @@
+// Création d'une API - spécifications //
+
+- les utilisateurs peuvent ajouter des sauces
+- les utilisateurs peuvent liker, disliker les sauces des autres utilisateurs
+
+- pratiques de code sécurisées
+- données personnelles des utilistaeur protégées, côté API et BDD -> méthodes de masquage
+- standards OWASP
+
+- API hebergée par un serveur Node.js
+- BDD: MongoDB
+- framework express
+- plugin Mangoose : pour garantir que toutes les erreurs de la BDD soient signalées
+
+- pas de régressions côté front
