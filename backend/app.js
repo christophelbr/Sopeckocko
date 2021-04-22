@@ -4,7 +4,7 @@ const bodyParser = require('body-parser'); //ajout de body-parser au projet : pe
 const mongoose = require('mongoose'); // ajout de mangoose : permet la gestione de la BDD 
 const path = require('path'); // Gestion du système de fichiers
 const helmet = require('helmet');// Protection de l'application avec helmet
-const mongooseLogin = require('./environnement');
+const mongooseLogin = require('./environnement'); //Importation des identifiants MongoDB
 
 // Importation des routes
 const sauceRoutes = require('./routes/sauce.route.js');

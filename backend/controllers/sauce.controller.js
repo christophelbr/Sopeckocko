@@ -31,19 +31,30 @@ exports.createSauce = (req, res, next) => {
 
 // Modification des sauces
 exports.modifySauce = (req, res, next) => {
-    // Si caractère NOK
-    if (req.body.name.match(regex) ||
-        req.body.manufacturer.match(regex) ||
-        req.body.description.match(regex) ||
-        req.body.mainPepper.match(regex)) {
+    //Si caractère NOK
+    const sauceObject = JSON.parse(req.body.sauce);
+    if (sauceObject.name.match(regex) ||
+        sauceObject.manufacturer.match(regex) ||
+        sauceObject.description.match(regex) ||
+        sauceObject.mainPepper.match(regex)) {
         return res.status(500).json({ error: 'caractère interdit' });
     }
     // Si non, modification de la sauce
     else {
-        Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        //Si il y a une photo :
+        const sauceUpdate = req.file ?
+            {
+                ...JSON.parse(req.body.sauce),
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            } :
+            //Sinon :
+            { ...req.body };
+        //Mise à jour de l'objet :
+        Sauce.updateOne({ _id: req.params.id }, { ...sauceUpdate, _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
             .catch(error => res.status(400).json({ error }));
     }
+
 };
 // Suppression des sauces
 exports.deleteSauce = (req, res, next) => {
@@ -69,7 +80,7 @@ exports.getOneSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
     // Récupération des  informations de la sauce
     Sauce.findOne({ _id: req.params.id })
-    
+
         .then(sauce => {
             // Selon la valeur recue pour 'like' dans la requête :
             switch (req.body.like) {
