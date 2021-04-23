@@ -2,7 +2,7 @@
 const Sauce = require('../models/sauce.model.js');
 
 // Déclaration regex pour sécurisation du formulaire
-const regex = /[^a-zA-Z\d]/g;
+const regex = /[^a-zA-Z\d ,;:]/g;
 
 // Création des sauces
 exports.createSauce = (req, res, next) => {
@@ -32,13 +32,13 @@ exports.createSauce = (req, res, next) => {
 // Modification des sauces
 exports.modifySauce = (req, res, next) => {
     //Si caractère NOK
-    const sauceObject = JSON.parse(req.body.sauce);
+     const sauceObject = JSON.parse(req.body.sauce);
     if (sauceObject.name.match(regex) ||
         sauceObject.manufacturer.match(regex) ||
         sauceObject.description.match(regex) ||
         sauceObject.mainPepper.match(regex)) {
         return res.status(500).json({ error: 'caractère interdit' });
-    }
+    } 
     // Si non, modification de la sauce
     else {
         //Si il y a une photo :

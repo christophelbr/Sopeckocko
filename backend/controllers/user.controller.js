@@ -1,22 +1,6 @@
 const jwt = require('jsonwebtoken'); // Importation de jsonwebtoken pour création des TOKEN
 const bcrypt = require('bcrypt'); // Importation de bcrypt pour hashage du mdp
 const User = require('../models/user.model.js');
-/* const mongoMask = require('mongo-mask');
-
-// Masquage des données personnelles
-const map =
-  { email: 'email' }
- 
-app.get('/api/auth', (req, res, next) => {
-  const fields = req.query.fields ? mongoMask(req.query.fields, { map }) : null
-  mongoCollection.findOne({}, fields, (err, user) => {
-    if (err) return next(err)
-    user.email = user.email
-    delete user.email
-    res.json(user)
-  })
-}) */
-
 
 //Permet aux utilisateurs de créer un compte
 exports.signup = (req, res, next) => {
@@ -28,7 +12,7 @@ exports.signup = (req, res, next) => {
             pwd.match(/[a-z]/g) && 
             pwd.match( /[^a-zA-Z\d]/g) &&
             pwd.length >= 10) {
-
+                
     //Si mot de passe assez robuste : hasher le mot de passe
     bcrypt.hash(req.body.password, 10)
         .then(hash => {

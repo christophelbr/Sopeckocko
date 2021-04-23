@@ -5,6 +5,7 @@ const mongoose = require('mongoose'); // ajout de mangoose : permet la gestione 
 const path = require('path'); // Gestion du système de fichiers
 const helmet = require('helmet');// Protection de l'application avec helmet
 const mongooseLogin = require('./environnement'); //Importation des identifiants MongoDB
+const hpp = require('hpp'); // contre les attaques de pollution des paramètres HTTP
 
 // Importation des routes
 const sauceRoutes = require('./routes/sauce.route.js');
@@ -12,6 +13,8 @@ const userRoutes = require('./routes/user.route.js');
 
 // Application express
 const app = express();
+
+app.use(require('express-status-monitor')());// Monitoring de l'application
 
 // Connexion à MongoDB
 mongoose.connect(`mongodb+srv://${mongooseLogin.login}:${mongooseLogin.password}@${mongooseLogin.dbUrl}?retryWrites=true&w=majority`,
@@ -33,6 +36,9 @@ app.use(helmet());
 
 // Utilisation de bodyParser par l'application
 app.use(bodyParser.json());
+
+// Utisation de hpp
+app.use(hpp());
 
 // Définition du chemin pour enregistremnet des photos sur le backend
 app.use('/images', express.static(path.join(__dirname, 'images')));
